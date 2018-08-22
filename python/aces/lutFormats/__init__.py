@@ -88,3 +88,4 @@ from aces.lutFormats.LutSPI import LutFormatSPI
 from aces.lutFormats.LutCSP import LutFormatCSP
 from aces.lutFormats.LutCLF import LutFormatCLF
 from aces.lutFormats.LutCTL import LutFormatCTL
+from aces.lutFormats.LutCUBE import LutFormatCUBE

@@ -49,7 +49,7 @@ filterImageWithCLF
 convertLUTtoCLF
 
 - Converts from the different LUT formats to CLF
-- LUT formats currently supported are: spi1d, spi3d and csp
+- LUT formats currently supported are: spi1d, spi3d, cube and csp
 
 convertCLFtoLUT
 
