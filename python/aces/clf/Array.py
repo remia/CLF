@@ -147,13 +147,14 @@ class Array:
             columns = self._dimensions[1]
 
         integers = self._valuesAreIntegers
+        sampleText = ""
 
         for n in range(int(len(self._values)/columns)):
             sample = self._values[n*columns:(n+1)*columns]
 
             # Integer values
             if integers:
-                sampleText = " ".join(map(lambda x: "%15s" % str(int(x)), sample))
+                sampleText += " ".join(map(lambda x: "%15s" % str(int(x)), sample))
 
             # Float Values
             # Floats encoded using bitwise equivalent hex or integer values
@@ -167,27 +168,27 @@ class Array:
 
                     if self._rawHalfs or self._floatEncoding == 'integer16bit':
                         sample = list(map(halfToUInt16, sample))
-                        sampleText = " ".join(map(lambda x: "%15s" % str(int(x)), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % str(int(x)), sample))
                     elif self._floatEncoding == 'integer32bit':
                         sample = list(map(float32ToUInt32, sample))
-                        sampleText = " ".join(map(lambda x: "%15s" % str(int(x)), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % str(int(x)), sample))
                     elif self._floatEncoding == 'integer64bit':
                         sample = list(map(doubleToUInt64, sample))
-                        sampleText = " ".join(map(lambda x: "%15s" % str(int(x)), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % str(int(x)), sample))
 
                     elif self._floatEncoding == 'hex16bit':
                         sample = list(map(halfToHex, sample))
-                        sampleText = " ".join(map(lambda x: "%15s" % str(x), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % str(x), sample))
                     elif self._floatEncoding == 'hex32bit':
                         sample = list(map(float32ToHex, sample))
-                        sampleText = " ".join(map(lambda x: "%15s" % str(x), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % str(x), sample))
                     elif self._floatEncoding == 'hex64bit':
                         sample = list(map(doubleToHex, sample))
-                        sampleText = " ".join(map(lambda x: "%16s" % str(x), sample))
+                        sampleText += " ".join(map(lambda x: "%16s" % str(x), sample))
 
                     # An unknown encoding. Will be ignored.
                     else:
-                        sampleText = " ".join(map(lambda x: "%15s" % ("%6.9f" % float(x)), sample))
+                        sampleText += " ".join(map(lambda x: "%15s" % ("%6.9f" % float(x)), sample))
                 else:
                     msg = "Unsupported feature : Array floatEncoding"
                     raise UnsupportedExtensionError(msg)
@@ -195,12 +196,15 @@ class Array:
             # 'rawHalfs' functionality. equivalent to 'floatEncoding' = 'integer16bit'
             elif self._rawHalfs:
                 sample = list(map(halfToUInt16, sample))
-                sampleText = " ".join(map(lambda x: "%15s" % str(int(x)), sample))
+                sampleText += " ".join(map(lambda x: "%15s" % str(int(x)), sample))
 
             # Floats printed as strings
             else:
-                sampleText = " ".join(map(lambda x: "%15s" % ("%6.9f" % float(x)), sample))
-            element.text += sampleText + "\n"
+                sampleText += " ".join(map(lambda x: "%15s" % ("%6.9f" % float(x)), sample))
+
+            sampleText += "\n"
+
+        element.text += sampleText
 
         # Hack
         # Will correct formatting for CLFs. Not Clip though...
